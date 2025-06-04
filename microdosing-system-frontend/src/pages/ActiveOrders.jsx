@@ -48,6 +48,7 @@ useEffect(() => {
       // ✅ Check for an active material first
       const activeResponse = await axios.get('http://127.0.0.1:5000/api/recipe_materials/active');
       const rawMaterial = activeResponse.data;
+      console.log("raw material :", rawMaterial)
 
       if (rawMaterial?.recipe_name) {
         const transformedMaterial = {
@@ -884,6 +885,7 @@ const handleStopScanner = async () => {
 
   const user = JSON.parse(localStorage.getItem("user"));
   const userRole = user?.role;
+  console.log("user role :", userRole)
 
   return (
     <div className="p-6 text-black bg-white min-h-screen">
@@ -1028,18 +1030,18 @@ const handleStopScanner = async () => {
             ? (order.materials.reduce((sum, material) => sum + parseFloat(material.setPoint || 0), 0) / order.materials.length).toFixed(2)
             : '—'}
         </td> */} 
-       <td className="p-3 border">
-  {mat.dosed
-    ? mat.bypassed
-      ? 'Bypassed'
-      : 'Dosed ✅'
-    : idx === currentIndex
-      ? 'In Progress'
-      : 'Pending'}
-</td>
+        <td className="p-3 border">
+          {mat.dosed
+            ? mat.bypassed
+              ? 'Bypassed'
+              : 'Dosed ✅'
+            : idx === currentIndex
+              ? 'In Progress'
+              : 'Pending'}
+        </td>
 
         <td className="p-3 border">
-          {idx === currentIndex && !mat.dosed && (
+          {userRole === "admin" && idx === currentIndex && !mat.dosed && (
             <div className="flex gap-2">
               <button
                 onClick={confirmDosing}
@@ -1047,10 +1049,10 @@ const handleStopScanner = async () => {
               >
                 ✅ Confirm
               </button>
-
             </div>
           )}
         </td>
+
       </tr>
     ))
   )}

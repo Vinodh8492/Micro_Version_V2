@@ -339,19 +339,14 @@ const Recipes = () => {
                   <Typography
                     color="primary"
                     sx={{
-                      cursor: userRole === "operator" ? "pointer" : "default",
-                      fontWeight: "medium",
-                      pointerEvents: userRole === "operator" ? "auto" : "none", // Prevent click
-                      opacity: userRole === "operator" ? 1 : 0.6 // Optional: visually indicate it's disabled
+                      cursor: "pointer",
+                      fontWeight: "medium"
                     }}
-                    onClick={() => {
-                      if (userRole === "operator") {
-                        navigate(`/recipes/view/${recipe.recipe_id}`);
-                      }
-                    }}
+                    onClick={() => navigate(`/recipes/view/${recipe.recipe_id}`)}
                   >
                     {recipe.name}
                   </Typography>
+
                 </TableCell>
                 <TableCell sx={{ border: "1px solid", borderColor: "divider" }}>
                   {recipe.created_by}
@@ -390,21 +385,24 @@ const Recipes = () => {
                     </Tooltip>
                   )}
 
-                  <Tooltip title="Assign-Material" arrow>
-                    <IconButton
-                      sx={{
-                        backgroundColor: "dodgerblue",
-                        color: "white",
-                        mr: 1,
-                      }}
-                      size="medium"
-                      onClick={() =>
-                        navigate(`/formula-details/edit/${recipe.recipe_id}`)
-                      }
-                    >
-                      <MoveToInboxIcon />
-                    </IconButton>
-                  </Tooltip>
+                  {userRole === "admin" && (
+                    <Tooltip title="Assign-Material" arrow>
+                      <IconButton
+                        sx={{
+                          backgroundColor: "dodgerblue",
+                          color: "white",
+                          mr: 1,
+                        }}
+                        size="medium"
+                        onClick={() =>
+                          navigate(`/formula-details/edit/${recipe.recipe_id}`)
+                        }
+                      >
+                        <MoveToInboxIcon />
+                      </IconButton>
+                    </Tooltip>
+                  )}
+
 
                   {userRole === "admin" && (
                     <Tooltip title="Delete" arrow>
